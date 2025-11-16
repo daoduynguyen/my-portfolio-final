@@ -37,7 +37,7 @@ $(document).ready(function () {
         }, 500, 'linear')
     });
 
-    // <!-- emailjs to mail contact form data -->
+    //  emailjs to mail contact form data 
     $("#contact-form").submit(function (event) {
         emailjs.init("user_TTDmetQLYgWCLzHTDgqxm");
 
@@ -52,7 +52,7 @@ $(document).ready(function () {
             });
         event.preventDefault();
     });
-    // <!-- emailjs to mail contact form data -->
+    // emailjs to mail contact form data 
 
 });
 
@@ -69,7 +69,7 @@ document.addEventListener('visibilitychange',
     });
 
 
-// <!-- typed js effect starts -->
+//  typed js effect starts 
 var typed = new Typed(".typing-text", {
     strings: ["frontend development", "backend development", "web designing", "android development", "web development"],
     loop: true,
@@ -77,7 +77,7 @@ var typed = new Typed(".typing-text", {
     backSpeed: 25,
     backDelay: 500,
 });
-// <!-- typed js effect ends -->
+//  typed js effect ends
 
 async function fetchData(type = "skills") {
     let response
@@ -127,11 +127,11 @@ function showProjects(projects) {
     });
     projectsContainer.innerHTML = projectHTML;
 
-    // <!-- tilt js effect starts -->
+    //  tilt js effect starts 
     VanillaTilt.init(document.querySelectorAll(".tilt"), {
         max: 15,
     });
-    // <!-- tilt js effect ends -->
+    //  tilt js effect ends 
 
     /* ===== SCROLL REVEAL ANIMATION ===== */
     const srtop = ScrollReveal({
@@ -154,11 +154,11 @@ fetchData("projects").then(data => {
     showProjects(data);
 });
 
-// <!-- tilt js effect starts -->
+//  tilt js effect starts 
 VanillaTilt.init(document.querySelectorAll(".tilt"), {
     max: 15,
 });
-// <!-- tilt js effect ends -->
+//  tilt js effect ends
 
 
 // pre loader start
