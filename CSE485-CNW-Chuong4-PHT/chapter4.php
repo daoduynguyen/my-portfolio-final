@@ -1,54 +1,88 @@
-<?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-$host = 'localhost';
-$dbname = 'cse485_web';     // Đúng tên có gạch dưới
-$username = 'root';
-$password = '';
+<?php 
+// === THIẾT LẬP KẾT NỐI PDO === 
+$host = '127.0.0.1'; 
+$dbname = 'cse485_web'; 
+$username = 'root'; 
+$password = ''; 
+$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    // TODO 1: Kết nối CSDL
+    $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("LỖI KẾT NỐI: " . $e->getMessage());
+} catch (PDOException $e) {
+    die("Kết nối thất bại: " . $e->getMessage());
 }
 
-// Thêm sinh viên
-if(isset($_POST['ten_sinh_vien']) && isset($_POST['email'])) {
+// === LOGIC THÊM SINH VIÊN ===
+if (isset($_POST['ten_sinh_vien']) && isset($_POST['email'])) {
+
+    // TODO 3: Lấy dữ liệu từ POST
     $ten = $_POST['ten_sinh_vien'];
     $email = $_POST['email'];
+
+    // TODO 4: SQL INSERT
     $sql = "INSERT INTO sinhvien (ten_sinh_vien, email) VALUES (?, ?)";
-    $pdo->prepare($sql)->execute([$ten, $email]);
+
+    // TODO 5: Prepare và Execute
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ten, $email]);
+
+    // TODO 6: Refresh trang
     header("Location: chapter4.php");
     exit;
 }
 
-// Lấy danh sách
-$stmt = $pdo->query("SELECT * FROM sinhvien ORDER BY id DESC");
+// === LOGIC LẤY DANH SÁCH SINH VIÊN ===
+// TODO 7: SELECT *
+$sql_select = "SELECT * FROM sinhvien ORDER BY ngay_tao DESC";
+
+// TODO 8: query()
+$stmt_select = $pdo->query($sql_select);
+
 ?>
-
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Chapter 4</title></head><body style="font-family:Arial;margin:40px">
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>PHT Chương 4 - Website hướng dữ liệu</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; } 
+        th, td { border: 1px solid #ddd; padding: 8px; } 
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
 
-<h2>Thêm sinh viên</h2>
-<form method="post">
-  Tên: <input type="text" name="ten_sinh_vien" required> &nbsp;
-  Email: <input type="email" name="email" required> &nbsp;
-  <button>Thêm</button>
-</form>
+    <h2>Thêm Sinh Viên Mới (Chủ đề 4.3)</h2>
+    <form action="chapter4.php" method="POST">
+        Tên sinh viên: <input type="text" name="ten_sinh_vien" required>
+        Email: <input type="email" name="email" required>
+        <button type="submit">Thêm</button>
+    </form>
 
-<h2>Danh sách sinh viên</h2>
-<table border="1" width="100%" cellpadding="10" cellspacing="0">
-<tr style="background:#333;color:white"><th>ID</th><th>Tên</th><th>Email</th><th>Ngày tạo</th></tr>
-<?php while($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-<tr>
-  <td><?=htmlspecialchars($row['id'])?></td>
-  <td><?=htmlspecialchars($row['ten_sinh_vien'])?></td>
-  <td><?=htmlspecialchars($row['email'])?></td>
-  <td><?=htmlspecialchars($row['ngay_tao'])?></td>
-</tr>
-<?php endwhile; ?>
-</table>
+    <h2>Danh Sách Sinh Viên (Chủ đề 4.2)</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Tên Sinh Viên</th>
+            <th>Email</th>
+            <th>Ngày Tạo</th>
+        </tr>
 
-</body></html>
+        <?php
+        // TODO 9–10: Lặp và in ra từng dòng
+        while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['ten_sinh_vien']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['ngay_tao']) . "</td>";
+            echo "</tr>";
+        }
+        ?>
+
+    </table>
+
+</body>
+</html>
