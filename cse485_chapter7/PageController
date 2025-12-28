@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PageController extends Controller
+{
+    public function showHomepage()
+    {
+        $viewTitle = 'PHT Chương 7 - Blade Template';
+        $pageTitle = 'Chào mừng bạn đến với Blade!';
+        $pageDescription = 'Đây là trang chủ được hiển thị bằng Blade Template.';
+        $tasks = [
+            'Cài đặt Laravel',
+            'Tạo Controller',
+            'Sử dụng Blade Template',
+            'Truyền dữ liệu từ Controller sang View'
+        ];
+
+        return view('homepage', [
+            'title' => $viewTitle,
+            'page_title' => $pageTitle,
+            'page_description' => $pageDescription,
+            'tasks' => $tasks
+        ]);
+    }
+}
