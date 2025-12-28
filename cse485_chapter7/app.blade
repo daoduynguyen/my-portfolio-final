@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ $title ?? 'Website của tôi' }}</title>
+</head>
+<body>
+
+<header>
+    <h1>Trang Web CSE485</h1>
+</header>
+
+<nav>
+    <a href="/">Trang Chủ</a>
+</nav>
+
+<hr>
+
+<div>
+    @yield('content')
+</div>
+
+<footer>
+    <p>© 2025 - Khoa CNTT - Đại học Thủy Lợi</p>
+</footer>
+
+</body>
+</html>
